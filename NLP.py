@@ -3,10 +3,7 @@ from bs4 import BeautifulSoup
 import nltk
 from nltk import tokenize
 from nltk.corpus import stopwords
-from nltk.parse.stanford import StanfordDependencyParser
-import spacy
-from spacy.symbols import nsubj,VERB
-parser = spacy.en.English()
+from nltk.book import *
 
 
 class Explore_LOTR:
@@ -62,14 +59,24 @@ class Explore_LOTR:
                 filtered_sentence.append(w)
 
         return filtered_sentence
+    
+    # Getting relevant stats on passage.
+    # Looking at word frequency.
+    # Needs to be finished.
+    def passage_stats(self, passage):
+        
+        dist = FreqDist(passage)
 
+        return dist["Aragon"]
 
-book = Explore_LOTR()
-passage = book.scrape()
-parsed_sents = book.parse(passage)
-ex_sent = parsed_sents[15]
+def main():
+    book = Explore_LOTR()
+    passage = book.scrape()
+    parsed_sents = book.parse(passage)
+    ex_sent = parsed_sents[15]
+    expanded_sent = book.expand(ex_sent)
+    reduced_sent = book.reduced_sent(expanded_sent)
+    print(reduced_sent)
 
-
-expanded_sent = book.expand(ex_sent)
-reduced_sent = book.reduced_sent(expanded_sent)
-print(reduced_sent)
+if __name__ == "__main__":
+    main()
